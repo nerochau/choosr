@@ -1,44 +1,60 @@
-# Choosr
+# Choosr - Smart Amazon Product Comparison
 
-**AI-powered Chrome extension that helps you make smarter shopping decisions.**
-
-Choosr compares products on Amazon by analyzing price, reviews, ratings, and shipping. With one click, it generates an **evidence-backed Decision Card** that summarizes pros and cons, ranks options, and highlights the most efficient choice.
+Choosr is a Chrome extension that helps users make smarter purchasing decisions on Amazon by comparing similar products and providing cost-benefit recommendations. It extracts product data directly from Amazon product pages, evaluates alternatives, and visually presents the top options.
 
 ---
 
-## 🚀 Features (MVP)
+## **Features**
 
-- **Popup Extension** → Activate Choosr directly on Amazon product or search pages.  
-- **Smart Data Extraction** → Collects product details (price, ratings, review count, shipping).  
-- **AI-Powered Summaries** → LLM-generated pros/cons from reviews.  
-- **Efficiency Score** → Weighted ranking based on price vs quality.  
-- **Compare Products** → Side-by-side product comparison in the popup.
-
----
-
-## 🌱 Roadmap
-
-- 🔍 **Natural language queries** (“Best headphones under $200 with >4.3 stars”)  
-- 🛍️ **Multi-site support** (Walmart, Target, Reddit, etc.)  
-- 👤 **Personalized ranking** based on user preferences  
-- 🤖 **AI Agent Mode** for cross-platform product discovery  
-- 🛡️ **Provenance + anti-fake review filtering**
+- **Automatic Product Data Extraction**: Fetches product title, price, rating, reviews, and ASIN from Amazon product pages.  
+- **Similar Product Recommendations**: Generates a curated list of similar products with varied pricing, ratings, and features.  
+- **Cost-Benefit Scoring**: Calculates a score for each product based on price, rating, and reviews to highlight the best value option.  
+- **Interactive Popup**: Displays recommended products with scores, ratings, and direct links to Amazon.  
+- **Badge Indicator**: Shows a small indicator when Choosr is active on Amazon pages.  
 
 ---
 
-## 🛠️ Tech Stack
+## **Installation**
 
-- **Frontend:** React + Tailwind CSS (popup UI)  
-- **Extension:** Chrome Manifest V3  
-- **Backend:** Node.js / Express (API + scraping logic)  
-- **AI:** OpenAI / Claude API for review summarization  
-- **Storage:** Simple JSON/Redis cache (for now)
+1. Clone or download this repository.  
+2. Open Chrome and navigate to `chrome://extensions/`.  
+3. Enable **Developer Mode**.  
+4. Click **Load unpacked** and select the extension directory.  
+5. Visit any Amazon product page to see Choosr in action.  
 
 ---
 
-## 📦 Installation (Dev Setup)
+## **Usage**
 
-1. Clone the repo:  
-   ```bash
-   git clone https://github.com/your-username/choosr.git
-   cd choosr
+1. Click the Choosr extension icon on an Amazon product page.  
+2. The popup will display the current product and a list of similar products.  
+3. Each recommended product includes:  
+   - Title  
+   - Price  
+   - Rating  
+   - Number of Reviews  
+   - Cost-Benefit Score  
+   - Direct link to Amazon  
+4. The top recommended product is highlighted for quick decision-making.  
+
+---
+
+## **Project Structure**
+
+- `background.js` – Handles extension installation, badge updates, and settings management.  
+- `content.js` – Extracts product data from Amazon pages and injects a small activity indicator.  
+- `popup.js` – Displays similar products and calculates cost-benefit scores.  
+- `manifest.json` – Chrome extension configuration file.  
+- `icons/` – Includes `icon16.png` and `logo.png` for extension icons.  
+
+---
+
+## **Customization**
+
+Users can adjust the relative weights for price, rating, and reviews in the extension settings (currently using default weights: Price: 30%, Rating: 40%, Reviews: 30%).  
+
+---
+
+## **License**
+
+This project is licensed under the MIT License.
