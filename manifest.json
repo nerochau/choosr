@@ -1,0 +1,49 @@
+{
+  "manifest_version": 3,
+  "name": "Choosr - Smart Amazon Product Comparison",
+  "version": "1.0",
+  "description": "Compare similar Amazon products and get smart cost-benefit recommendations",
+  "permissions": [
+    "activeTab",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://*.amazon.com/*",
+    "https://*.amazon.co.uk/*",
+    "https://*.amazon.ca/*",
+    "https://*.amazon.de/*",
+    "https://*.amazon.fr/*",
+    "https://*.amazon.it/*",
+    "https://*.amazon.es/*",
+    "https://*.amazon.in/*",
+    "https://*.amazon.com.au/*",
+    "https://*.amazon.co.jp/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.amazon.com/*",
+        "https://*.amazon.co.uk/*",
+        "https://*.amazon.ca/*",
+        "https://*.amazon.de/*",
+        "https://*.amazon.fr/*",
+        "https://*.amazon.it/*",
+        "https://*.amazon.es/*",
+        "https://*.amazon.in/*",
+        "https://*.amazon.com.au/*",
+        "https://*.amazon.co.jp/*"
+      ],
+      "js": ["content.js"]
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Choosr - Compare Products"
+  },
+  "icons": {
+    "16": "icons/icon16.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}
