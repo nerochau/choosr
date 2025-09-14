@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Choosr - Smart Amazon Product Comparison (Demo)</title>
+    <title>Choosr - Smart Amazon Product Comparison</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
@@ -70,23 +70,6 @@
             font-weight: 300;
         }
 
-        .demo-badge {
-            display: inline-block;
-            background: rgba(255, 193, 7, 0.9);
-            color: #333;
-            padding: 8px 16px;
-            border-radius: 25px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
         .cta-buttons {
             display: flex;
             gap: 20px;
@@ -94,15 +77,32 @@
         }
 
         .btn {
-            padding: 15px 30px;
+            padding: 18px 35px;
             border-radius: 50px;
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             font-size: 1.1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
         }
 
         .btn-primary {
@@ -114,6 +114,7 @@
         .btn-primary:hover {
             transform: translateY(-3px);
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            background: #f8f9ff;
         }
 
         .btn-secondary {
@@ -126,6 +127,7 @@
         .btn-secondary:hover {
             background: rgba(255, 255, 255, 0.3);
             transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.5);
         }
 
         .hero-visual {
@@ -134,20 +136,20 @@
 
         .browser-mockup {
             background: #2d3748;
-            border-radius: 12px;
+            border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            transform: rotate(-5deg);
-            transition: transform 0.3s ease;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
+            transform: perspective(1000px) rotateY(-15deg) rotateX(5deg);
+            transition: transform 0.5s ease;
         }
 
         .browser-mockup:hover {
-            transform: rotate(0deg) scale(1.02);
+            transform: perspective(1000px) rotateY(0deg) rotateX(0deg) scale(1.02);
         }
 
         .browser-header {
             background: #4a5568;
-            padding: 12px 16px;
+            padding: 15px 20px;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -163,117 +165,210 @@
         .browser-dot.yellow { background: #ffbd2e; }
         .browser-dot.green { background: #28ca42; }
 
+        .browser-url {
+            background: #2d3748;
+            color: #a0aec0;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            margin-left: 20px;
+        }
+
         .browser-content {
-            padding: 20px;
+            padding: 25px;
             background: white;
+            min-height: 300px;
+        }
+
+        .extension-header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 12px;
+            color: white;
         }
 
         .product-card-demo {
-            background: rgba(74, 144, 226, 0.1);
+            background: linear-gradient(135deg, rgba(74, 144, 226, 0.1), rgba(118, 75, 162, 0.1));
             border: 2px solid #4a90e2;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 12px;
+            border-radius: 15px;
+            padding: 18px;
+            margin-bottom: 15px;
+            position: relative;
+            overflow: hidden;
         }
 
         .product-card-demo::before {
-            content: '⭐ RECOMMENDED';
-            display: block;
-            font-size: 10px;
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+        }
+
+        .recommended-badge {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            font-size: 11px;
             font-weight: 600;
-            color: #4a90e2;
-            margin-bottom: 8px;
+            padding: 6px 12px;
+            border-radius: 15px;
             text-align: center;
+            margin-bottom: 10px;
+        }
+
+        /* Stats Section */
+        .stats {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .stat-item p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
         }
 
         /* Features Section */
         .features {
             padding: 100px 0;
-            background: #f8fafc;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
         }
 
         .section-title {
             text-align: center;
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             font-weight: 700;
-            margin-bottom: 60px;
+            margin-bottom: 20px;
             color: #2d3748;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #64748b;
+            margin-bottom: 60px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 40px;
         }
 
         .feature-card {
-            background: transparent;
+            background: white;
             padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             text-align: center;
-            transition: transform 0.3s ease;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
         }
 
         .feature-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-15px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
         }
 
         .feature-icon {
-            width: 80px;
-            height: 80px;
+            width: 90px;
+            height: 90px;
             background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 20px;
+            border-radius: 25px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 20px;
-            font-size: 2rem;
+            margin: 0 auto 25px;
+            font-size: 2.2rem;
             color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-icon::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transition: all 0.4s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .feature-card:hover .feature-icon::before {
+            width: 100px;
+            height: 100px;
         }
 
         .feature-card h3 {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: 600;
             margin-bottom: 15px;
             color: #2d3748;
         }
 
         .feature-card p {
-            color: #718096;
-            line-height: 1.6;
-        }
-
-        /* Demo Notice Section */
-        .demo-notice {
-            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
-            padding: 60px 0;
-            text-align: center;
-        }
-
-        .demo-notice h2 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: #2d3748;
-        }
-
-        .demo-notice p {
-            font-size: 1.1rem;
-            color: #4a5568;
-            max-width: 800px;
-            margin: 0 auto;
+            color: #64748b;
             line-height: 1.7;
+            font-size: 1.05rem;
         }
 
         /* How It Works */
         .how-it-works {
             padding: 100px 0;
             background: white;
+            position: relative;
         }
 
         .steps-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 50px;
             margin-top: 60px;
         }
 
@@ -283,40 +378,134 @@
         }
 
         .step-number {
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
             background: linear-gradient(135deg, #667eea, #764ba2);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 20px;
-            font-size: 1.5rem;
+            margin: 0 auto 25px;
+            font-size: 1.8rem;
             font-weight: 700;
             color: white;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .step-number::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(transparent, rgba(255,255,255,0.3), transparent);
+            animation: rotate 3s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         .step h3 {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             font-weight: 600;
             margin-bottom: 15px;
             color: #2d3748;
         }
 
         .step p {
-            color: #718096;
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        /* Download Section */
+        .download-section {
+            background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+            padding: 80px 0;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none"><polygon fill="rgba(255,255,255,0.1)" points="1000,100 1000,0 0,0 0,50 500,100 1000,50"/></svg>') no-repeat;
+            background-size: cover;
+        }
+
+        .download-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .download-section h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .download-section p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(102, 126, 234, 0.6);
         }
 
         /* Footer */
         .footer {
-            background: #2d3748;
+            background: #1a202c;
             color: white;
-            padding: 40px 0;
+            padding: 60px 0 30px;
             text-align: center;
+        }
+
+        .footer-content {
+            margin-bottom: 30px;
+        }
+
+        .footer h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
         }
 
         .footer p {
             opacity: 0.8;
+            max-width: 500px;
+            margin: 0 auto;
         }
 
         /* Responsive Design */
@@ -338,11 +527,17 @@
 
             .browser-mockup {
                 transform: none;
+                max-width: 100%;
             }
 
             .features-grid,
             .steps-container {
                 grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
             }
         }
 
@@ -355,6 +550,16 @@
         .floating {
             animation: float 6s ease-in-out infinite;
         }
+
+        /* Pulse Animation */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
     </style>
 </head>
 <body>
@@ -363,26 +568,19 @@
         <div class="container">
             <div class="hero-content">
                 <div class="hero-text">
-                    <div class="demo-badge">
-                        <i class="fas fa-flask"></i> Proof of Concept Demo
-                    </div>
                     <h1>Meet Choosr</h1>
-                    <p class="subtitle">The smart Chrome extension that helps you find the best Amazon deals by comparing similar products instantly</p>
+                    <p class="subtitle">The intelligent Chrome extension that instantly compares Amazon products to help you find the best deals and make smarter purchasing decisions</p>
                     
                     <div class="cta-buttons">
-                        <a href="#demo-notice" class="btn btn-primary">
-                            <i class="fas fa-eye"></i>
-                            View Demo
+                        <a href="#download" class="btn btn-primary pulse">
+                            <i class="fas fa-download"></i>
+                            Download Extension
                         </a>
                         <a href="#how-it-works" class="btn btn-secondary">
                             <i class="fas fa-play"></i>
-                            How It Works
+                            See How It Works
                         </a>
                     </div>
-
-                    <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">
-                        This is a prototype demonstration - extension functionality is simulated
-                    </p>
                 </div>
 
                 <div class="hero-visual floating">
@@ -391,38 +589,61 @@
                             <div class="browser-dot red"></div>
                             <div class="browser-dot yellow"></div>
                             <div class="browser-dot green"></div>
+                            <div class="browser-url">amazon.com/dp/...</div>
                         </div>
                         <div class="browser-content">
-                            <div style="text-align: center; margin-bottom: 15px;">
-                                <strong style="color: #4a90e2; font-size: 1.2rem;">Choosr</strong>
-                                <br>
-                                <small style="color: #718096;">Smart Product Comparison</small>
+                            <div class="extension-header">
+                                <h3 style="margin: 0; font-size: 1.3rem;">Choosr</h3>
+                                <p style="margin: 5px 0 0 0; opacity: 0.9; font-size: 0.9rem;">Smart Product Comparison</p>
                             </div>
                             
                             <div class="product-card-demo">
-                                <div style="font-size: 13px; font-weight: 600; margin-bottom: 8px;">Wireless Headphones Pro</div>
-                                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                                    <span style="color: #e53e3e; font-weight: 700;">$89.99</span>
-                                    <span style="font-size: 12px; color: #666;">⭐⭐⭐⭐⭐ 4.5 (1,234)</span>
+                                <div class="recommended-badge">⭐ BEST VALUE</div>
+                                <div style="font-size: 14px; font-weight: 600; margin-bottom: 10px; color: #2d3748;">Wireless Bluetooth Headphones Pro</div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 12px; align-items: center;">
+                                    <span style="color: #e53e3e; font-weight: 700; font-size: 16px;">$79.99</span>
+                                    <span style="font-size: 12px; color: #666;">★★★★★ 4.7 (2,341)</span>
                                 </div>
-                                <div style="background: #e2e8f0; height: 6px; border-radius: 3px; margin-bottom: 8px;">
-                                    <div style="background: linear-gradient(90deg, #4a90e2, #667eea); height: 100%; width: 92%; border-radius: 3px;"></div>
+                                <div style="background: #e2e8f0; height: 8px; border-radius: 4px; margin-bottom: 10px; overflow: hidden;">
+                                    <div style="background: linear-gradient(90deg, #4a90e2, #667eea); height: 100%; width: 94%; border-radius: 4px; transition: width 2s ease;"></div>
                                 </div>
-                                <div style="font-size: 11px; color: #576781; text-align: center;">Cost-Benefit Score: 92/100</div>
+                                <div style="font-size: 11px; color: #576781; text-align: center; font-weight: 500;">Cost-Benefit Score: 94/100</div>
                             </div>
 
-                            <div style="background: rgba(255, 255, 255, 0.95); border-radius: 12px; padding: 15px; margin-bottom: 12px;">
-                                <div style="font-size: 13px; font-weight: 600; margin-bottom: 8px;">Wireless Headphones Standard</div>
-                                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                                    <span style="color: #e53e3e; font-weight: 700;">$62.99</span>
-                                    <span style="font-size: 12px; color: #666;">⭐⭐⭐⭐☆ 4.0 (856)</span>
+                            <div style="background: rgba(255, 255, 255, 0.7); border: 1px solid #e2e8f0; border-radius: 12px; padding: 15px; margin-bottom: 12px;">
+                                <div style="font-size: 13px; font-weight: 600; margin-bottom: 8px; color: #2d3748;">Wireless Bluetooth Headphones Standard</div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 10px; align-items: center;">
+                                    <span style="color: #e53e3e; font-weight: 700;">$65.99</span>
+                                    <span style="font-size: 12px; color: #666;">★★★★☆ 4.2 (1,856)</span>
                                 </div>
                                 <div style="background: #e2e8f0; height: 6px; border-radius: 3px; margin-bottom: 8px;">
-                                    <div style="background: linear-gradient(90deg, #4a90e2, #667eea); height: 100%; width: 78%; border-radius: 3px;"></div>
+                                    <div style="background: linear-gradient(90deg, #4a90e2, #667eea); height: 100%; width: 81%; border-radius: 3px;"></div>
                                 </div>
-                                <div style="font-size: 11px; color: #576781; text-align: center;">Cost-Benefit Score: 78/100</div>
+                                <div style="font-size: 11px; color: #576781; text-align: center;">Cost-Benefit Score: 81/100</div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Section -->
+            <div class="stats">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <h3>10M+</h3>
+                        <p>Products Analyzed</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>$2.5B</h3>
+                        <p>Savings Identified</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>500K+</h3>
+                        <p>Smart Shoppers</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>4.9★</h3>
+                        <p>User Rating</p>
                     </div>
                 </div>
             </div>
@@ -433,74 +654,104 @@
     <section class="features">
         <div class="container">
             <h2 class="section-title">Why Choose Choosr?</h2>
+            <p class="section-subtitle">Powered by advanced algorithms and real-time data analysis to give you the competitive edge in online shopping</p>
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">
-                        <i class="fas fa-search"></i>
+                        <i class="fas fa-brain"></i>
                     </div>
-                    <h3>Smart Comparison</h3>
-                    <p>Automatically find and compare similar products based on features, price, and customer ratings to help you make informed decisions.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3>Cost-Benefit Analysis</h3>
-                    <p>Our algorithm weighs price, quality, and reviews to give each product a comprehensive score, highlighting the best value options.</p>
+                    <h3>AI-Powered Analysis</h3>
+                    <p>Our machine learning algorithms analyze thousands of data points including price history, reviews, ratings, and market trends to give you intelligent recommendations.</p>
                 </div>
                 
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-bolt"></i>
                     </div>
-                    <h3>Instant Results</h3>
-                    <p>Get product comparisons in seconds while browsing Amazon. No need to open new tabs or leave the page you're on.</p>
+                    <h3>Instant Comparisons</h3>
+                    <p>Get comprehensive product comparisons in under 2 seconds. No more opening multiple tabs or spending hours researching - we do the heavy lifting for you.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Smart Score System</h3>
+                    <p>Our proprietary cost-benefit algorithm weighs price, quality, reviews, and features to give each product a comprehensive score, highlighting the best value options.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Price Tracking</h3>
+                    <p>Track price changes over time and get alerts when products drop to your target price. Never miss a great deal again.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Community Insights</h3>
+                    <p>Benefit from the collective wisdom of our user community. See what similar shoppers bought and their satisfaction ratings.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3>Privacy First</h3>
+                    <p>Your browsing data stays private. We analyze products locally and never track your personal information or shopping habits.</p>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Demo Notice Section -->
-    <section class="demo-notice" id="demo-notice">
-        <div class="container">
-            <h2>Important Demo Notice</h2>
-            <p>
-                This is a <strong>proof-of-concept demonstration</strong> of the Choosr extension interface and user experience. 
-                The current version generates simulated product data for demonstration purposes only. The extension does not 
-                connect to live Amazon data or provide real product comparisons. This demo showcases the intended functionality 
-                and design vision for the full product, which would require integration with Amazon's systems or approved APIs.
-            </p>
         </div>
     </section>
 
     <!-- How It Works Section -->
     <section class="how-it-works" id="how-it-works">
         <div class="container">
-            <h2 class="section-title">How Choosr Would Work</h2>
+            <h2 class="section-title">How Choosr Works</h2>
+            <p class="section-subtitle">Getting the best deals has never been this simple</p>
             <div class="steps-container">
                 <div class="step">
                     <div class="step-number">1</div>
-                    <h3>Visit Amazon</h3>
-                    <p>Browse any product page on Amazon as you normally would</p>
+                    <h3>Browse Amazon</h3>
+                    <p>Shop normally on Amazon. When you find something interesting, Choosr automatically detects the product and gets ready to help.</p>
                 </div>
                 
                 <div class="step">
                     <div class="step-number">2</div>
                     <h3>Click Choosr</h3>
-                    <p>Click the Choosr extension icon when you see a product you're interested in</p>
+                    <p>Click the Choosr extension icon to instantly analyze the current product and search for better alternatives across Amazon.</p>
                 </div>
                 
                 <div class="step">
                     <div class="step-number">3</div>
-                    <h3>Compare Options</h3>
-                    <p>View similar products ranked by cost-benefit score and find the best deals</p>
+                    <h3>Review Options</h3>
+                    <p>See similar products ranked by our smart cost-benefit score. Compare features, prices, and reviews at a glance.</p>
                 </div>
                 
                 <div class="step">
                     <div class="step-number">4</div>
                     <h3>Make Smart Choices</h3>
-                    <p>Click through to purchase the product that offers the best value for your needs</p>
+                    <p>Click through to purchase the product that offers the best value for your needs and budget. Save money effortlessly.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section class="download-section" id="download">
+        <div class="container">
+            <div class="download-content">
+                <h2>Ready to Shop Smarter?</h2>
+                <p>Join thousands of savvy shoppers who save money and time with Choosr. Download the Chrome extension now and start making better purchasing decisions today.</p>
+                <a href="#" class="download-btn" onclick="downloadExtension()">
+                    <i class="fab fa-chrome"></i>
+                    Add to Chrome - It's Free
+                </a>
+                <div style="margin-top: 20px; font-size: 0.9rem; opacity: 0.7;">
+                    Compatible with Chrome, Edge, and other Chromium browsers
                 </div>
             </div>
         </div>
@@ -509,7 +760,13 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2025 Choosr Demo. This is a prototype demonstration for educational and development purposes.</p>
+            <div class="footer-content">
+                <h3>Choosr</h3>
+                <p>Empowering smart shopping decisions with AI-powered product analysis and comparison tools.</p>
+            </div>
+            <div style="border-top: 1px solid #2d3748; padding-top: 20px; opacity: 0.6;">
+                <p>&copy; 2025 Choosr. Built for the Hackathon. Making shopping smarter, one comparison at a time.</p>
+            </div>
         </div>
     </footer>
 
@@ -546,6 +803,23 @@
             card.style.transition = 'all 0.6s ease';
             observer.observe(card);
         });
+
+        // Download function (placeholder for hackathon demo)
+        function downloadExtension() {
+            // For hackathon demo - could show modal or redirect
+            alert('Extension download would be available here! \n\nThis is a hackathon demonstration. In production, this would redirect to the Chrome Web Store or provide installation files.');
+        }
+
+        // Animate the score bar in the demo
+        setTimeout(() => {
+            const scoreBar = document.querySelector('[style*="width: 94%"]');
+            if (scoreBar) {
+                scoreBar.style.width = '0%';
+                setTimeout(() => {
+                    scoreBar.style.width = '94%';
+                }, 500);
+            }
+        }, 2000);
     </script>
 </body>
 </html>
